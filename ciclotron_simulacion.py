@@ -1,3 +1,4 @@
+import math as math
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -100,13 +101,6 @@ def runge_kutta_4(particle, max_iter, delta_t):
 	return results,vex,vey
 	
 
-fig1 = plt.figure()
-ax1  = fig1.add_subplot(1,1,1)
-
-fig2 =  plt.figure()
-ax2  = fig2.add_subplot(1,1,1)
-
-#Plotting
 def plots(particle, max_iter):
 
 	x = []
@@ -127,58 +121,57 @@ def plots(particle, max_iter):
 	yc = []
 	x = []
 	y = []
-    #print(results)
 	for p in results:
 		z.append(p[2])
 		if p[0] >= 0 or p[0] <= -spacing :
 			if len(xc) :
-				ax1.plot(xc,yc, color='green',linewidth=0.95)
+				plt.plot(xc,yc, color='green',linewidth=0.95)
 				xc = []
 				yc = []
 			x.append(p[0])
 			y.append(p[1])
 		else:
 			if len(xc) :
-				ax1.plot(x,y, color='green',linewidth=0.95)
+				plt.plot(x,y, color='green',linewidth=0.95)
 				x = []
 				y = []
 			xc.append(p[0])
 			yc.append(p[1])
-	num_points = len(z)
-
-	b = np.linalg.norm(magn_uniform_field)
-	e = np.linalg.norm(e_field)
-	v1 = z[len(z)-1]
-	ax1.set_title("Simulación del Ciclotrón")
-	ax1.set_xlabel(r"$X$ $[m]$")
-	ax1.set_ylabel(r"$Y$ $[m]$")
+	plt.title("Simulación del Ciclotrón")
+	plt.xlabel(r"$X$ $[m]$")
+	plt.ylabel(r"$Y$ $[m]$")
+	plt.savefig('ciclotron.jpeg')
 
 	return X,Y,Vx,Vy
 
 
 X,Y,VX,VY=plots(proton, 20000)
-plt.savefig('ciclotron.jpeg')
+
 plt.close()
 
+plt.figure(figsize=(8,5))
 
 VX=np.gradient(X,2)
 plt.plot(X,VX)
 plt.title(r"Simulación del Ciclotrón Diagrama $V_{X}$ vs $X$")
-plt.xlabel(r"$V_{X}$ $[m/s]$")
-plt.ylabel(r"$X$ $[m]$")
+plt.ylabel(r"$V_{X}$ $[m/s]$")
+plt.xlabel(r"$X$ $[m]$")
 plt.savefig('ciclotron_vx_x.jpeg')
 plt.close()
-plt.show()
+
+plt.figure(figsize=(8,5))
 
 VY=np.gradient(Y,2)
 plt.plot(Y,VY)
 plt.title(r"Simulación del Ciclotrón Diagrama $V_{Y}$ vs $Y$")
-plt.xlabel(r"$V_{Y}$ $[m/s]$")
-plt.ylabel(r"$Y$ $[m]$")
+plt.ylabel(r"$V_{Y}$ $[m/s]$")
+plt.xlabel(r"$Y$ $[m]$")
 plt.savefig('ciclotron_vy_y.jpeg')
 plt.close()
 
-T=(2*np.pi)/(VX**2+VY**2)**(1/2)
+plt.figure(figsize=(8,5))
+
+T=(2*np.pi*(X**2+Y**2)**(0.5))/(VX**2+VY**2)**(1/2)
 t=np.linspace(0,len(T),len(T))
 plt.plot(t,T)
 plt.title(r"Simulación del Ciclotrón Diagrama $T$ vs $t$")
@@ -190,6 +183,8 @@ plt.close()
 m=1.67E-27
 e=+1.60E-19
 B=1.5
+
+plt.figure(figsize=(8,5))
 
 r=(X**2+Y**2)**(1/2)
 R=(m*((VX**2+VY**2)**(1/2)))/(e*B)
