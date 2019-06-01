@@ -14,10 +14,10 @@ e=+1.60E-19
 B=2.5
 E=5000000.0
 speed=0.05
-
+q=1.60E-19
 
 speed_of_light = 3.0E08
-proton = Particle([0.00, 0.0, 0.0], [speed*speed_of_light, 0.0, 0.0], 1.67E-27, +1.60E-19)
+proton = Particle([0.00, 0.0, 0.0], [speed*speed_of_light, 0.0, 0.0], 1.67E-27, +q)
 e_field = [E, 0.0, 0.0]
 magn_uniform_field = [0.0, 0.0, -B]
 
@@ -188,12 +188,17 @@ plt.figure(figsize=(8,5))
 
 r=(X**2+Y**2)**(1/2)
 R=(m*((VX**2+VY**2)**(1/2)))/(e*B)
-plt.plot(R,r)
+plt.plot(r,R)
 plt.title(r"Diagrama $r$ $(p)$ vs $r$ $(x,y)$")
-plt.xlabel(r"$r$ $(x,y)$ $[m]$")
-plt.ylabel(r"$r$ $(p)$ $[m]$")
+plt.ylabel(r"$r$ $(x,y)$ $[m]$")
+plt.xlabel(r"$r$ $(p)$ $[m]$")
 plt.savefig('ciclotron_r.jpeg')
 plt.close()
+
+r_2=( (np.linalg.norm(X))**(2.0) + (np.linalg.norm(Y))**(2.0) )
+K_Energy=0.5*(q**2)*(B**2)*(r_2)/(m)
+e_V=1.602177E-19
+print('La eneria cinetica final de la particula al salir del ciclotron es:',K_Energy/e_V,"eV")
 
 
 
